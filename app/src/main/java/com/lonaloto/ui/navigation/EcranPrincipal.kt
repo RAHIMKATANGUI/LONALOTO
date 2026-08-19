@@ -3,6 +3,7 @@ package com.lonaloto.ui.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Assessment
 import androidx.compose.material.icons.filled.EditNote
+import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.People
@@ -24,6 +25,7 @@ import com.lonaloto.ui.audit.AuditScreen
 import com.lonaloto.ui.parametres.ParametresScreen
 import com.lonaloto.ui.rapports.RapportScreen
 import com.lonaloto.ui.saisie.SaisieVenteScreen
+import com.lonaloto.ui.saisieflotte.SaisieFlotteScreen
 import com.lonaloto.ui.utilisateurs.UtilisateursScreen
 
 private data class OngletBas(val route: String, val label: String, val icone: androidx.compose.ui.graphics.vector.ImageVector, val permissionRequise: Permission?)
@@ -31,6 +33,7 @@ private data class OngletBas(val route: String, val label: String, val icone: an
 private val ONGLETS = listOf(
     OngletBas(Destinations.ACCUEIL_TAB, "Accueil", Icons.Filled.Home, permissionRequise = null),
     OngletBas(Destinations.SAISIE, "Saisie", Icons.Filled.EditNote, Permission.SAISIR_VENTES_PERSONNELLES),
+    OngletBas(Destinations.SAISIE_FLOTTE, "Ma flotte", Icons.Filled.Groups, Permission.SAISIR_VENTES_FLOTTE),
     OngletBas(Destinations.RAPPORTS, "Rapports", Icons.Filled.Assessment, Permission.VOIR_BILAN_PERSONNEL),
     OngletBas(Destinations.PARAMETRES, "Paramètres", Icons.Filled.Settings, Permission.MODIFIER_TAUX),
     OngletBas(Destinations.UTILISATEURS, "Utilisateurs", Icons.Filled.People, Permission.GERER_UTILISATEURS),
@@ -79,6 +82,7 @@ fun EcranPrincipal(sessionManager: SessionManager, accueilContent: @Composable (
         ) {
             composable(Destinations.ACCUEIL_TAB) { accueilContent() }
             composable(Destinations.SAISIE) { SaisieVenteScreen() }
+            composable(Destinations.SAISIE_FLOTTE) { SaisieFlotteScreen() }
             composable(Destinations.RAPPORTS) { RapportScreen() }
             composable(Destinations.PARAMETRES) { ParametresScreen() }
             composable(Destinations.UTILISATEURS) { UtilisateursScreen() }

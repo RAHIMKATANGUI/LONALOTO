@@ -38,6 +38,16 @@ interface VenteDao {
     @Query("SELECT * FROM ventes WHERE vendeurId = :vendeurId AND date = :date LIMIT 1")
     suspend fun saisieDuJour(vendeurId: Long, date: Date): Vente?
 
+    /** Saisies non encore validées par le Chef de Flotte, les plus récentes en premier. */
+    @Query(
+        """
+        SELECT * FROM ventes
+        WHERE activiteId = :activiteId AND moisId = :moisId AND validePar IS NULL
+        ORDER BY date DESC
+        """
+    )
+    fun nonValideesParActiviteEtMois(activiteId: Long, moisId: Long): Flow<List<Vente>>
+
     /**
      * Reproduit "TOTAL DU MOIS" de l'Excel : SUM(recette), SUM(paiement)
      * pour une activité et un mois donnés, toutes saisies confondues (tous vendeurs).

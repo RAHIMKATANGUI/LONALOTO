@@ -32,6 +32,9 @@ class VenteRepository @Inject constructor(
     fun ventesVendeurDuMois(vendeurId: Long, moisId: Long): Flow<List<Vente>> =
         venteDao.parVendeurEtMois(vendeurId, moisId)
 
+    fun ventesNonValidees(activiteId: Long, moisId: Long): Flow<List<Vente>> =
+        venteDao.nonValideesParActiviteEtMois(activiteId, moisId)
+
     /**
      * Saisit (ou met à jour) la recette/paiement d'un vendeur pour une date donnée.
      * Refuse la saisie si le mois est clôturé — protège les données déjà validées
