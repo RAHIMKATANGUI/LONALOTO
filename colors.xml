@@ -1,0 +1,8 @@
+<resources>
+    <!-- Miroir XML des couleurs Compose (ui/theme/Color.kt), nécessaire pour
+         les éléments qui restent en XML (splash screen, notifications, etc.) -->
+    <color name="orange_lonaloto">#F77F00</color>
+    <color name="vert_lonaloto">#1B8A4C</color>
+    <color name="fond_clair">#FFFBF5</color>
+    <color name="fond_sombre">#1C1B18</color>
+</resources>

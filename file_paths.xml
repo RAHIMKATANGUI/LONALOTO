@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Les exports PDF/Excel sont générés dans cacheDir/exports/ (voir ExcelExporter, PdfExporter) -->
+    <cache-path name="exports" path="exports/" />
+
+    <!-- Nécessaire pour que l'ADMIN puisse exporter le fichier de sauvegarde .db -->
+    <files-path name="sauvegardes" path="sauvegardes/" />
+</paths>

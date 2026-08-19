@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.Lonaloto" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/fond_sombre</item>
+        <item name="android:windowBackground">@color/fond_sombre</item>
+    </style>
+</resources>

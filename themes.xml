@@ -1,0 +1,9 @@
+<resources>
+    <!-- Thème système minimal — les couleurs réelles de l'app viennent de
+         ui/theme/Theme.kt (Compose Material3). Ce thème XML ne sert que
+         pour la fenêtre de démarrage avant que Compose ne prenne le relais. -->
+    <style name="Theme.Lonaloto" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/orange_lonaloto</item>
+        <item name="android:windowBackground">@color/fond_clair</item>
+    </style>
+</resources>
