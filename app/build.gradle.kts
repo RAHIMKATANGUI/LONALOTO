@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.lonaloto"
-        minSdk = 24          // couvre la quasi-totalité des terminaux terrain en circulation
+        minSdk = 26            // couvre la quasi-totalité des terminaux terrain en circulation
         targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
