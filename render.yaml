@@ -14,4 +14,4 @@ services:
 
 databases:
   - name: lonaloto-db
-    plan: free
+    plan: basic-1gb
