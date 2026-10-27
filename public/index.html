@@ -419,8 +419,10 @@
       <div class="section-heading">Recettes par semaine (FCFA)</div>
       <div class="table-wrap"><table id="hebdo-table-recette"></table></div>
 
-      <div class="section-heading">Paiements par semaine (FCFA)</div>
-      <div class="table-wrap"><table id="hebdo-table-paiement"></table></div>
+      <div id="hebdo-paiement-block">
+        <div class="section-heading">Paiements par semaine (FCFA)</div>
+        <div class="table-wrap"><table id="hebdo-table-paiement"></table></div>
+      </div>
     </section>
 
     <!-- SYNTHESE -->
@@ -612,6 +614,14 @@
     showToast('Enregistré localement (hors ligne).');
   }
 
+  /* ---------- Profil agent : seuls Total recette et Salaire coupeur sont visibles ---------- */
+  var AGENT_VISIBLE_KEYS = ['totalRecette', 'salaireCoupeur'];
+  function isAgent(){ return !!(SESSION && SESSION.role !== 'admin'); }
+  function visibleCols(cols){
+    if(!isAgent()) return cols;
+    return cols.filter(function(c){ return AGENT_VISIBLE_KEYS.indexOf(c.k) !== -1; });
+  }
+
   /* ---------- Rendering: tab nav ---------- */
   function setView(view){
     current.view = view;
@@ -685,7 +695,7 @@
 
     draftDays = getDays(current.activity, current.saisieMonth);
     var rr = getActivityRates(current.activity);
-    document.getElementById('saisie-rates-note').textContent =
+    document.getElementById('saisie-rates-note').textContent = isAgent() ? '' :
       'Taux ' + current.activity + ' — Recette '+fmtPct(rr.recette)+'% · Paiement '+fmtPct(rr.paiement)+'% · LONACI '+fmtPct(rr.lonaci)+'% · Coupeur '+fmtPct(rr.coupeur)+'%';
     var tbody = document.getElementById('saisie-tbody');
     tbody.innerHTML = '';
@@ -716,14 +726,15 @@
   function renderSaisieCards(){
     var t = computeTotals(draftDays, getActivityRates(current.activity));
     var cards = [
-      {label:'Total recette', value: fmtFCFA(t.totalRecette), cls:''},
-      {label:'Total paiement', value: fmtFCFA(t.totalPaiement), cls:''},
-      {label:'Montant total', value: fmtFCFA(t.montantTotal), cls:''},
-      {label:'Montant total LONACI', value: fmtFCFA(t.montantLonaci), cls:''},
-      {label:'Point paiement', value: fmtFCFA(t.pointPaiement), cls:'accent'},
-      {label:'Salaire coupeur', value: fmtFCFA(t.salaireCoupeur), cls:'accent'},
-      {label:'Salaire mensuel', value: fmtFCFA(t.salaireMensuel), cls:'hero'}
+      {k:'totalRecette', label:'Total recette', value: fmtFCFA(t.totalRecette), cls:''},
+      {k:'totalPaiement', label:'Total paiement', value: fmtFCFA(t.totalPaiement), cls:''},
+      {k:'montantTotal', label:'Montant total', value: fmtFCFA(t.montantTotal), cls:''},
+      {k:'montantLonaci', label:'Montant total LONACI', value: fmtFCFA(t.montantLonaci), cls:''},
+      {k:'pointPaiement', label:'Point paiement', value: fmtFCFA(t.pointPaiement), cls:'accent'},
+      {k:'salaireCoupeur', label:'Salaire coupeur', value: fmtFCFA(t.salaireCoupeur), cls:'accent'},
+      {k:'salaireMensuel', label:'Salaire mensuel', value: fmtFCFA(t.salaireMensuel), cls:'hero'}
     ];
+    cards = visibleCols(cards);
     var wrap = document.getElementById('saisie-cards');
     wrap.innerHTML = '';
     cards.forEach(function(c){
@@ -786,7 +797,13 @@
     fillMonthSelect(monthSel, current.hebdoMonth);
     monthSel.onchange = function(){ current.hebdoMonth = monthSel.value; renderHebdo(); };
     renderHebdoTable(0, document.getElementById('hebdo-table-recette'), current.hebdoMonth);
-    renderHebdoTable(1, document.getElementById('hebdo-table-paiement'), current.hebdoMonth);
+    var paiementBlock = document.getElementById('hebdo-paiement-block');
+    if(isAgent()){
+      paiementBlock.style.display = 'none';
+    } else {
+      paiementBlock.style.display = '';
+      renderHebdoTable(1, document.getElementById('hebdo-table-paiement'), current.hebdoMonth);
+    }
   }
 
   /* ---------- SYNTHESE ---------- */
@@ -804,6 +821,7 @@
       {k:'pointPaiement', label:'Point paiement'},
       {k:'salaireMensuel', label:'Salaire mensuel'}
     ];
+    cols = visibleCols(cols);
     var html = '<thead><tr><th style="width:150px;">Activité</th>';
     cols.forEach(function(c){ html += '<th class="num">'+c.label+'</th>'; });
     html += '</tr></thead><tbody>';
@@ -832,6 +850,7 @@
       {k:'pointPaiement', label:'Point paiement'},
       {k:'salaireMensuel', label:'Salaire mensuel'}
     ];
+    cols = visibleCols(cols);
     var html = '<thead><tr><th style="width:130px;">Mois</th>';
     cols.forEach(function(c){ html += '<th class="num">'+c.label+'</th>'; });
     html += '</tr></thead><tbody>';
